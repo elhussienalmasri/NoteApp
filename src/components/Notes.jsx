@@ -1,47 +1,17 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import NoteContext from '../context/notes/noteContext'
 import EditNote from './EditNote';
 import NoteItems from './NoteItems';
-import { useNavigate } from 'react-router-dom'
 
 function Notes(props) {
     const context = useContext(NoteContext);
-    const { notes, getNote, editNote } = context;
+    const { notes, editNote } = context;
     const [enote, setenote] = useState({ id: "", title: "", description: "", tag: "default" })
-    const navigate = useNavigate();
+
     const [search, setSearch] = useState("")
-    const [sort, setSort] = useState("newest");
-    const [tag, setTags] = useState("All");
-
-    //sort and filter
-    const transformedNotes = () => {
-      let sortedNotes = notes;
-      sortedNotes = sortedNotes.sort((a, b) => {
-        const aCreatedAt = new Date(a.date);
-        const bCreatedAt = new Date(b.date);
-        return sort === "newest"
-          ? bCreatedAt - aCreatedAt
-          : aCreatedAt - bCreatedAt;
-      });
-
-      if (tag && tag !== "All") {
-        sortedNotes = sortedNotes?.filter(
-          (item) => item.tag.toLowerCase() === tag.toLowerCase()
-        );
-      }
-
-      return sortedNotes;
-    };
-
+   
+   
     useEffect(() => {}, [notes]);
-    useEffect(() => {
-      if (localStorage.getItem("token")) {
-        getNote();
-      } else {
-        navigate("/login");
-      }
-      // eslint-disable-next-line
-    }, []);
 
     const ref = useRef(null);
     const refclose = useRef(null);
@@ -96,7 +66,7 @@ function Notes(props) {
           <div className="mx-3">
             {notes.length === 0 && "No notes to display.."}
           </div>
-          {transformedNotes()
+          {notes()
             .filter((item) => {
               return item.title.toLowerCase().includes(search);
             })

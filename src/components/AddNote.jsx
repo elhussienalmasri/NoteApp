@@ -10,7 +10,7 @@ function AddNote(props)
 
     const [note, setnote] = useState({ title: "", description: "", tag: "Todo" })
 
-    const navigate = useNavigate();
+
     
     const onchange=(e)=>{
         setnote({ ...note, [e.target.name]:e.target.value})
@@ -24,16 +24,6 @@ function AddNote(props)
         props.showAlert("Note added successfully", "success")
     }
 
-    useEffect(() => {
-        if (localStorage.getItem('token')) {
-            getNote()
-        } else {
-            navigate('/login')
-
-        }
-        // eslint-disable-next-line
-
-    }, [])
 
     return (
         <div>
