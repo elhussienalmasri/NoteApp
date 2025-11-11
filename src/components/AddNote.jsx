@@ -1,20 +1,17 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import NoteContext from '../context/notes/noteContext';
-import { useNavigate,Link,useLocation } from 'react-router-dom';
+import { Link,useLocation } from 'react-router-dom';
 
 function AddNote(props) 
 {
     const location = useLocation();
     const context = useContext(NoteContext);
-    const {addNote, getNote} = context;
+    const {addNote} = context;
 
     const [note, setnote] = useState({ title: "", description: "", tag: "Todo" })
 
-
-    
     const onchange=(e)=>{
-        setnote({ ...note, [e.target.name]:e.target.value})
-       
+        setnote({ ...note, [e.target.name]:e.target.value})    
     }
     
     const handleClick=(e)=>{
