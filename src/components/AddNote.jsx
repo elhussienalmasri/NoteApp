@@ -22,6 +22,7 @@ function AddNote(props) {
 
     useEffect(() => {
         getNote()
+    // eslint-disable-next-line
     }, [])
 
 
