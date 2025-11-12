@@ -1,25 +1,28 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import NoteContext from '../context/notes/noteContext';
-import { Link,useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-function AddNote(props) 
-{
+function AddNote(props) {
     const location = useLocation();
     const context = useContext(NoteContext);
-    const {addNote} = context;
+    const { addNote, getNote } = context;
 
     const [note, setnote] = useState({ title: "", description: "", tag: "Todo" })
 
-    const onchange=(e)=>{
-        setnote({ ...note, [e.target.name]:e.target.value})    
+    const onchange = (e) => {
+        setnote({ ...note, [e.target.name]: e.target.value })
     }
-    
-    const handleClick=(e)=>{
-        e.preventDefault(); 
+
+    const handleClick = (e) => {
+        e.preventDefault();
         addNote(note.title, note.description, note.tag)
-        setnote({  title: "", description: "", tag: ""})
+        setnote({ title: "", description: "", tag: "" })
         props.showAlert("Note added successfully", "success")
     }
+
+    useEffect(() => {
+        getNote()
+    }, [])
 
 
     return (
@@ -30,7 +33,7 @@ function AddNote(props)
                 </div>
                 <div className="mb-3 my-4">
                     <label htmlFor="tag" className="form-label">Tag</label>
-                    <select className="form-select" aria-label="Default select example" id="tag" value={note.tag} onChange={onchange}  name="tag">
+                    <select className="form-select" aria-label="Default select example" id="tag" value={note.tag} onChange={onchange} name="tag">
 
                         <option value="Todo">Todo</option>
                         <option value="Important">Important</option>
@@ -41,22 +44,22 @@ function AddNote(props)
                 </div>
                 <div className="mb-3 ">
                     <label htmlFor="title" className="form-label">Title</label>
-                    <input type="text" className="form-control" id="title"  value={note.title} onChange={onchange} name="title" />
+                    <input type="text" className="form-control" id="title" value={note.title} onChange={onchange} name="title" />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="description" className="form-label">Description</label>
-                    <textarea className="form-control" id="description" name="description"  value={note.description} onChange={onchange} rows="3"></textarea>
+                    <textarea className="form-control" id="description" name="description" value={note.description} onChange={onchange} rows="3"></textarea>
                 </div>
                 <div className='text-center'>
                     <button className='btn btn-primary' onClick={handleClick}>Add Note</button>
                 </div>
 
-             
+
             </div>
-            
+
             <div className="text-center">
-            <Link to="/notes" className={`nav-link ${location.pathname === "/notes" ? "active" : ""}`} aria-current="page" >Your Notes</Link>
-             </div>
+                <Link to="/notes" className={`nav-link ${location.pathname === "/notes" ? "active" : ""}`} aria-current="page" >Your Notes</Link>
+            </div>
         </div>
     )
 }

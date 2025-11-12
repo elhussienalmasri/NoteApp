@@ -29,10 +29,9 @@ function Navbar() {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link
-                  to="/notes"
-                  className={`nav-link ${
-                    location.pathname === "/notes" ? "active" : ""
-                  }`}
+                  to="/"
+                  className={`nav-link ${location.pathname === "/" ? "active" : ""
+                    }`}
                   aria-current="page"
                 >
                   Your Notes
@@ -41,10 +40,9 @@ function Navbar() {
 
               <li className="nav-item">
                 <Link
-                  to="/"
-                  className={`nav-link ${
-                    location.pathname === "/" ? "active" : ""
-                  }`}
+                  to="/add"
+                  className={`nav-link ${location.pathname === "/add" ? "active" : ""
+                    }`}
                   aria-current="page"
                 >
                   AddNote
@@ -54,16 +52,13 @@ function Navbar() {
               <li className="nav-item">
                 <Link
                   to="/about"
-                  className={`nav-link ${
-                    location.pathname === "/about" ? "active" : ""
-                  }`}
+                  className={`nav-link ${location.pathname === "/about" ? "active" : ""
+                    }`}
                 >
                   About
                 </Link>
               </li>
             </ul>
-
-        
           </div>
         </div>
       </nav>

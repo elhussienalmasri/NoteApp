@@ -4,72 +4,75 @@ import EditNote from './EditNote';
 import NoteItems from './NoteItems';
 
 function Notes(props) {
-    const context = useContext(NoteContext);
-    const { notes, editNote } = context;
-    const [enote, setenote] = useState({ id: "", title: "", description: "", tag: "default" })
+  const context = useContext(NoteContext);
+  const { notes, editNote, getNote } = context;
+  const [enote, setenote] = useState({ id: "", title: "", description: "", tag: "default" })
 
-    const [search, setSearch] = useState("")
-   
-   
-    useEffect(() => {}, [notes]);
+  const [search, setSearch] = useState("")
 
-    const ref = useRef(null);
-    const refclose = useRef(null);
+  useEffect(() => {
+    getNote()
+    // eslint-disable-next-line
+  }, [])
 
-    const updateNote = (currentNote) => {
-      ref.current.click();
-      setenote(currentNote);
-    };
 
-    const onchange = (e) => {
-      setenote({ ...enote, [e.target.name]: e.target.value });
-    };
+  useEffect(() => { }, [notes]);
 
-    const handleEdit = (e) => {
-      e.preventDefault();
-      editNote(enote._id, enote.title, enote.description, enote.tag);
-      refclose.current.click();
+  const ref = useRef(null);
+  const refclose = useRef(null);
 
-      props.showAlert("Note is updated successfully", "success");
-    };
+  const updateNote = (currentNote) => {
+    ref.current.click();
+    setenote(currentNote);
+  };
 
-    return (
-      <>
-        <div className="my-5">
-          <div>
-            <h3>🧾 Your Notes:</h3>
-          </div>
-          <div className="d-flex py-3     justify-content-center">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value.toLowerCase());
-              }}
-            />
-          </div>
-         
+  const onchange = (e) => {
+    setenote({ ...enote, [e.target.name]: e.target.value });
+  };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    editNote(enote.id, enote.title, enote.description, enote.tag);
+    refclose.current.click();
+    props.showAlert("Note is updated successfully", "success");
+  };
+
+  return (
+    <>
+      <div className="my-5">
+        <div>
+          <h3>🧾 Your Notes:</h3>
+        </div>
+        <div className="d-flex py-3     justify-content-center">
+          <input
+            className="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value.toLowerCase());
+            }}
+          />
         </div>
 
-        <EditNote
-          reference={ref}
-          closeref={refclose}
-          enote={enote}
-          onchange={onchange}
-          handleChange={handleEdit}
-        />
+      </div>
 
-        <div className="row mb-5">
-          <div className="mx-3">
-            {notes.length === 0 && "No notes to display.."}
-          </div>
-          {notes()
-            .filter((item) => {
-              return item.title.toLowerCase().includes(search);
-            })
+      <EditNote
+        reference={ref}
+        closeref={refclose}
+        enote={enote}
+        onchange={onchange}
+        handleChange={handleEdit}
+      />
+
+      <div className="row mb-5">
+        <div className="mx-3">
+          {notes.length === 0 && "No notes to display.."}
+        </div>
+        { notes
+            .filter((item) => item.title && item.title.toLowerCase().includes(search.toLowerCase()))
+
             .map((note) => {
               return (
                 <NoteItems
@@ -80,9 +83,9 @@ function Notes(props) {
                 />
               );
             })}
-        </div>
-      </>
-    );
+      </div>
+    </>
+  );
 }
 
 export default Notes

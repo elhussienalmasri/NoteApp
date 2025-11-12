@@ -31,8 +31,8 @@ function App() {
 
           <div className="container my-5">
             <Routes>
-              <Route path="/" element={<AddNote showAlert={showAlert} />} />
-              <Route path="/notes" element={<Notes showAlert={showAlert} />} />
+              <Route path="/" element={<Notes showAlert={showAlert} />} />
+              <Route path="/add" element={<AddNote showAlert={showAlert} />} />
               <Route path="/about" element={<About showAlert={showAlert} />} />
             </Routes>
           </div>

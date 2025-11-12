@@ -8,12 +8,11 @@ function NoteItems(props) {
     const { deleteNote } = context;
 
     const handleDelete = () => {
-        deleteNote(note._id)
+        deleteNote(note.id)
         props.showAlert("Note is deleted successfully", "success")
     }
 
-    let date = note.date;
-    date = date.slice(0, -14).split('-').reverse().join('-');
+    let date = new Date(note.published_at).toISOString().split('T')[0];
 
     return (
         <div className='col-sm-4 col-md-3 my-2 ' >
